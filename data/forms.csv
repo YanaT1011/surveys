@@ -1,0 +1,4 @@
+﻿form_id,contract_id,template,form_name,max_answers,status,link
+a1b2c3d4,CONTRACT_2025_01,base,Москва 18–24,100,active,/form/a1b2c3d4
+e5f6g7h8,CONTRACT_2025_01,base,Москва 25–34,100,active,/form/e5f6g7h8
+i9j0k1l2,CONTRACT_2025_01,base,СПб 18–24,1,active,/form/i9j0k1l2
