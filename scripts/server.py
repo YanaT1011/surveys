@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for
 import csv
@@ -74,4 +75,5 @@ def thank_you():
     return "Спасибо! Ваш ответ сохранён. Страницу можно закрыть."
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
