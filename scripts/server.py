@@ -5,8 +5,11 @@ from pathlib import Path
 
 app = Flask(__name__, template_folder="../templates")
 
-FORMS_CSV = Path("../data/forms.csv")
-ANSWERS_CSV = Path("../data/answers.csv")
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BASE_DIR / "data"
+
+FORMS_CSV = DATA_DIR / "forms.csv"
+ANSWERS_CSV = DATA_DIR / "answers.csv"
 
 # Создаём файл ответов, если его нет
 if not ANSWERS_CSV.exists():
