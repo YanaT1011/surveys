@@ -3,15 +3,14 @@ from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for
 import csv
 from pathlib import Path
+import json
 import gspread
 from google.oauth2.service_account import Credentials
 
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
-creds = Credentials.from_service_account_file(
-    "credentials.json",  # имя твоего JSON файла
-    scopes=SCOPES
-)
+creds_info = json.loads(os.environ["GOOGLE_CREDS_JSON"])  # читаем JSON из переменной среды
+creds = Credentials.from_service_account_info(creds_info, scopes=SCOPES)
 
 client = gspread.authorize(creds)
 
