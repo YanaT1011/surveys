@@ -229,8 +229,6 @@ input[type="submit"] {
 <label><input type="radio" name="q17" value="старше 60" required> старше 60</label>
 </div>
 
-<input type="submit" value="Отправить">
-
 </form>
 
 <script>
@@ -254,7 +252,8 @@ questions.forEach((q, idx) => {
         if (questions[next]) {
             questions[next].classList.add("active");
         } else {
-            document.querySelector("input[type=submit]").style.display = "block";
+            // последний вопрос пройден — отправляем форму автоматически
+            document.querySelector("form").submit();
         }
     }));
 });
