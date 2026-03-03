@@ -3,6 +3,20 @@ from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for
 import csv
 from pathlib import Path
+import gspread
+from google.oauth2.service_account import Credentials
+
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+
+creds = Credentials.from_service_account_file(
+    "credentials.json",  # имя твоего JSON файла
+    scopes=SCOPES
+)
+
+client = gspread.authorize(creds)
+
+# Открываем таблицу по имени
+sheet = client.open("Surveys Answers").sheet1
 
 app = Flask(__name__, template_folder="../templates")
 
@@ -55,16 +69,23 @@ def show_form(form_id):
     if request.method == "POST":
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
 
+        rows_to_add = []
+
         with open(ANSWERS_CSV, "a", newline="", encoding="utf-8-sig") as f:
             writer = csv.writer(f)
 
             for question, answer in request.form.items():
-                writer.writerow([
-                    timestamp,
-                    form_id,
-                    question,
-                    answer
-                ])
+                row = [timestamp, form_id, question, answer]
+
+                # Пишем в CSV
+                writer.writerow(row)
+
+                # Готовим для Google Sheets
+                rows_to_add.append(row)
+
+        # 👉 Один запрос вместо 17+
+        if rows_to_add:
+            sheet.append_rows(rows_to_add)
 
         return redirect(url_for("thank_you"))
 
